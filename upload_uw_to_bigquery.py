@@ -19,24 +19,12 @@ if not os.path.exists(KEY_FILE):
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = KEY_FILE
 
 def sanitize_table_name(name):
-    """
-    Sanitize the sheet name to be a valid BigQuery table name.
-    """
     clean_name = re.sub(r'[^a-zA-Z0-9]', '_', name)
     if not clean_name:
         return "table"
     if not clean_name[0].isalpha() and clean_name[0] != '_':
         clean_name = '_' + clean_name
     return clean_name
-
-def clean_column_name(col_name):
-    """
-    Remove spaces and special chars, convert to CamelCase/PascalCase-like or snake_case if preferred.
-    Matching the user's previous preference: 'Date Created' -> 'DateCreated' (Remove spaces).
-    """
-    # Remove all non-alphanumeric characters (spaces, punctuation)
-    # But keep the casing as is (e.g. 'Date Created' -> 'DateCreated')
-    return re.sub(r'[^a-zA-Z0-9]', '', str(col_name))
 
 def upload_uw():
     try:
@@ -58,6 +46,71 @@ def upload_uw():
         print(f"Reading Excel file: {EXCEL_FILE}")
         xls = pd.ExcelFile(EXCEL_FILE)
         
+        # Define Schema
+        schema = [
+            bigquery.SchemaField("IdLogQuotation", "FLOAT"),
+            bigquery.SchemaField("DataStatus", "STRING"), # Note: 'Data Status' in source likely needs checking
+            bigquery.SchemaField("IdQuotation", "FLOAT"),
+            bigquery.SchemaField("InsuredName", "STRING"),
+            bigquery.SchemaField("IdTOC", "FLOAT"),
+            bigquery.SchemaField("TOC", "STRING"),
+            bigquery.SchemaField("IdSOB", "FLOAT"),
+            bigquery.SchemaField("SOB", "STRING"),
+            bigquery.SchemaField("Marketing", "STRING"),
+            bigquery.SchemaField("Branch", "STRING"),
+            bigquery.SchemaField("DateCreated", "DATETIME"),
+            bigquery.SchemaField("UserSubmit", "STRING"),
+            bigquery.SchemaField("SubmitDate", "DATETIME"),
+            bigquery.SchemaField("Underwriter", "STRING"),
+            bigquery.SchemaField("Reinsurance", "STRING"),
+            bigquery.SchemaField("ResponseDate", "STRING"),
+            bigquery.SchemaField("ResponseTime", "STRING"),
+            bigquery.SchemaField("SLA", "STRING"),
+            bigquery.SchemaField("ResponseTimeMinutes", "FLOAT"),
+            bigquery.SchemaField("IDCOB", "FLOAT"),
+            bigquery.SchemaField("COB", "STRING"),
+            bigquery.SchemaField("create_date", "DATETIME"),
+            bigquery.SchemaField("modified_date", "DATETIME"),
+            bigquery.SchemaField("create_by", "STRING"),
+            bigquery.SchemaField("modified_by", "STRING"),
+            bigquery.SchemaField("TSI", "FLOAT"),
+            bigquery.SchemaField("Share", "FLOAT"),
+            bigquery.SchemaField("SharePercentage", "FLOAT"),
+            bigquery.SchemaField("CompletionStatus", "STRING"),
+            bigquery.SchemaField("LatestPIC", "STRING"),
+        ]
+
+        # Column Mapping (Source Excel Name -> Target Schema Name)
+        # Based on previous inspection: 'Id Log Quotation', 'Id Quotation', etc.
+        column_mapping = {
+            'Id Log Quotation': 'IdLogQuotation',
+            # 'Data Status': 'DataStatus', # Not seen in inspection output, but adding if present
+            'Id Quotation': 'IdQuotation',
+            'Insured Name': 'InsuredName',
+            'Id TOC': 'IdTOC',
+            'TOC': 'TOC',
+            'Id SOB': 'IdSOB',
+            'SOB': 'SOB',
+            'Marketing': 'Marketing',
+            'Branch': 'Branch',
+            'Date Created': 'DateCreated',
+            'User Submit': 'UserSubmit',
+            'Submit Date': 'SubmitDate',
+            'Underwriter': 'Underwriter',
+            'Reinsurance': 'Reinsurance',
+            'Response Date': 'ResponseDate',
+            'Response Time': 'ResponseTime',
+            'SLA': 'SLA',
+            'Response Time Minutes': 'ResponseTimeMinutes',
+            'ID COB': 'IDCOB',
+            'COB': 'COB',
+            'TSI': 'TSI',
+            'Share': 'Share',
+            'Share Percentage': 'SharePercentage',
+            'Completion Status': 'CompletionStatus',
+            'Latest PIC': 'LatestPIC'
+        }
+
         target_sheets = ["Report UW"]
         
         for sheet_name in xls.sheet_names:
@@ -69,9 +122,12 @@ def upload_uw():
             try:
                 df = pd.read_excel(xls, sheet_name=sheet_name)
                 
-                # Clean Column Names
-                df.columns = [clean_column_name(c) for c in df.columns]
-                print(f"  -> Cleaned columns: {list(df.columns)}")
+                # Rename columns
+                df = df.rename(columns=column_mapping)
+                
+                # Check for 'Data Status' which might be missing from mapping if it wasn't in inspection
+                if 'Data Status' in df.columns:
+                    df = df.rename(columns={'Data Status': 'DataStatus'})
 
                 # Add Audit Columns
                 now = datetime.now()
@@ -80,23 +136,42 @@ def upload_uw():
                 df['create_by'] = 'ETL_Script'
                 df['modified_by'] = 'ETL_Script'
 
-                # Date/Time Handling
-                # Convert columns containing 'Date' or 'Time' to datetime objects
-                # This ensures BigQuery detects them as TIMESTAMP/DATETIME instead of STRING
-                date_keywords = ['Date', 'Time']
-                for col in df.columns:
-                    if any(k in col for k in date_keywords):
-                        # Special check: prevent converting audit cols we just added if we don't want to coerce them (they are already datetime)
-                        if col in ['create_date', 'modified_date']:
-                            continue
-                            
-                        # Convert to datetime, coerce errors to NaT
-                        # Skip columns that look like numeric durations
-                        if 'Minutes' in col:
-                            continue
+                # Ensure only columns in schema are kept
+                schema_cols = [field.name for field in schema]
+                
+                # Initialize missing columns with None
+                for col in schema_cols:
+                    if col not in df.columns:
+                        print(f"  Warning: Column {col} missing in source, filling with Null")
+                        df[col] = None 
+                        
+                df = df[schema_cols]
+                
+                # Type Conversions
+                
+                # 1. FLOATs
+                float_cols = [f.name for f in schema if f.field_type == 'FLOAT']
+                for col in float_cols:
+                    df[col] = pd.to_numeric(df[col], errors='coerce')
+                
+                # 2. STRINGs
+                str_cols = [f.name for f in schema if f.field_type == 'STRING']
+                for col in str_cols:
+                    # Special handling for dates that should be strings (ResponseDate)
+                    # If it's datetime, convert to YYYY-MM-DD string
+                    if pd.api.types.is_datetime64_any_dtype(df[col]):
+                        df[col] = df[col].dt.strftime('%Y-%m-%d')
+                    
+                    df[col] = df[col].astype(str).replace({'nan': None, 'NaN': None, '<NA>': None, 'None': None})
+                    # Replace literal 'NaT' string if it occurred
+                    df[col] = df[col].replace('NaT', None)
 
-                        if df[col].dtype == 'object' or pd.api.types.is_numeric_dtype(df[col]):
-                             df[col] = pd.to_datetime(df[col], errors='coerce')
+                # 3. DATETIME
+                dt_cols = [f.name for f in schema if f.field_type == 'DATETIME']
+                for col in dt_cols:
+                     if col in ['create_date', 'modified_date']:
+                         continue # Already set as datetime objects
+                     df[col] = pd.to_datetime(df[col], errors='coerce')
 
                 table_name = sanitize_table_name(sheet_name)
                 table_id = f"{client.project}.{DATASET_ID}.{table_name}"
@@ -108,7 +183,7 @@ def upload_uw():
                 
                 job_config = bigquery.LoadJobConfig(
                     write_disposition="WRITE_TRUNCATE",
-                    autodetect=True, # Auto-detect schema from dataframe types
+                    schema=schema
                 )
                 
                 job = client.load_table_from_dataframe(
