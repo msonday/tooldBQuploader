@@ -1,0 +1,40 @@
+Loading data\ReportUW-07152026150110.xlsx...
+Sheet names: ['Report UW']
+
+--- Sheet: Report UW ---
+Columns: ['Id Log Quotation', 'Id Quotation', 'Insured Name', 'Id TOC', 'TOC', 'Id SOB', 'SOB', 'Marketing', 'Branch', 'Date Created', 'User Submit', 'Submit Date', 'Underwriter', 'Reinsurance', 'Response Date', 'Response Time', 'SLA', 'Response Time Minutes', 'ID COB', 'COB', 'TSI', 'Share', 'Share Percentage', 'Completion Status', 'Latest PIC']
+   Id Log Quotation  Id Quotation                                         Insured Name  Id TOC                                               TOC  Id SOB                                       SOB                       Marketing                         Branch            Date Created                     User Submit             Submit Date                        Underwriter  Reinsurance           Response Date        Response Time       SLA  Response Time Minutes  ID COB               COB         TSI       Share  Share Percentage                 Completion Status                         Latest PIC
+0            694036        174829                                PT. BANUA PETRA PRIMA    1006  Polis Standar Asuransi Kecelakaan Diri Indonesia     695                      PT BANUA PETRA PRIMA      shinta.k@mpm-insurance.com  Kantor Perwakilan Banjarmasin 2024-12-06 18:56:09.109      shinta.k@mpm-insurance.com 2025-01-01 07:31:50.335   harry.setiawan@mpm-insurance.com          NaN 2025-01-02 09:26:00.896  1 day(s) & 01:54:10  Meet SLA                1554.10      10  General Accident    52500000    52500000               100            Review Quotation By UW   harry.setiawan@mpm-insurance.com
+1            694037        176620   PT GRAHA MULIA ABADI QQ PT RAJAWALI PUTRA MANYARAN     312                                            PSAPBI   11324                             IRWAN OKAWIDA      shinta.k@mpm-insurance.com  Kantor Perwakilan Banjarmasin 2024-12-27 11:15:40.769      shinta.k@mpm-insurance.com 2025-01-01 07:39:54.501  aprilia.setiami@mpm-insurance.com          NaN 2025-01-02 11:44:03.050  1 day(s) & 04:04:08  Meet SLA                1684.80       3      Marine Cargo  5625915170  1687774551                30  Review Adjusted Quotation By MKT         shinta.k@mpm-insurance.com
+2            694038        176817  PT. UNITED EQUIPMENT INDONESIA QQ HATTA YATA LATTOF     805            Construction Plant and Machinery (CPM)   19132  KRIS SUYANTO BANGUN, ST (REF AD UNIQUIP)  faris.wibowo@mpm-insurance.com  Kantor Perwakilan Banjarmasin 2024-12-30 16:26:58.766  faris.wibowo@mpm-insurance.com 2025-01-01 09:51:13.960  aprilia.setiami@mpm-insurance.com          NaN 2025-01-02 14:40:45.405  1 day(s) & 04:49:31  Meet SLA                1729.31       8       Engineering  1455000000  1455000000               100                   Customer Agreed  aprilia.setiami@mpm-insurance.com
+3            694039        176948                              MTF QQ PT ADITARWAN - N     805            Construction Plant and Machinery (CPM)     477                 MANDIRI TUNAS FINANCE, PT        rahayu@mpm-insurance.com           Kantor Pusat Jakarta 2025-01-01 10:09:20.349        rahayu@mpm-insurance.com 2025-01-01 10:09:20.349          rohendi@mpm-insurance.com          NaN 2025-01-01 17:02:05.086  0 day(s) & 06:52:44  Meet SLA                 412.44       8       Engineering   929070000   929070000               100                   Customer Agreed          rohendi@mpm-insurance.com
+4            694040        176949                              MTF QQ PT ADITARWAN - N     805            Construction Plant and Machinery (CPM)     477                 MANDIRI TUNAS FINANCE, PT        rahayu@mpm-insurance.com           Kantor Pusat Jakarta 2025-01-01 10:09:43.909        rahayu@mpm-insurance.com 2025-01-01 10:09:43.909          rohendi@mpm-insurance.com          NaN 2025-01-01 16:43:55.803  0 day(s) & 06:34:11  Meet SLA                 394.11       8       Engineering   452880000   452880000               100                   Customer Agreed          rohendi@mpm-insurance.com
+
+Inferred Types:
+Id Log Quotation                  int64
+Id Quotation                      int64
+Insured Name                     object
+Id TOC                            int64
+TOC                              object
+Id SOB                            int64
+SOB                              object
+Marketing                        object
+Branch                           object
+Date Created             datetime64[ns]
+User Submit                      object
+Submit Date              datetime64[ns]
+Underwriter                      object
+Reinsurance                     float64
+Response Date            datetime64[ns]
+Response Time                    object
+SLA                              object
+Response Time Minutes           float64
+ID COB                            int64
+COB                              object
+TSI                               int64
+Share                             int64
+Share Percentage                  int64
+Completion Status                object
+Latest PIC                       object
+dtype: object
+--------------------
