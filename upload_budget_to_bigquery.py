@@ -6,7 +6,7 @@ import re
 
 # Configuration
 KEY_FILE = 'big-bliss-302909-06cd6e425088.json'
-EXCEL_FILE = 'budget_2026_v1.xlsx'
+EXCEL_FILE = r'data\budget_080126.xlsx'
 DATASET_ID = 'temporary'
 LOCATION = 'asia-southeast2' # Jakarta
 
