@@ -1,0 +1,39 @@
+Loading data\prod_hist\ProduksiJanDes2024.xlsx...
+Sheet names: ['ProduksiJanDes2024']
+
+--- Sheet: ProduksiJanDes2024 ---
+Columns: ['tanggal', 'Bulan', 'Tahun', 'branch', 'MO', 'SARATOGA', 'CGroup', 'SCGroup', 'source', 'cob', 'toc', 'LOB', 'BankersClause', 'New', 'New Premi', 'Renewal', 'Renewal Premi', 'Comm', 'CommSUBS', 'Disc', 'EngFee', 'FacPrem', 'RIPrem', 'FacRICom', 'SourceBusiness']
+     tanggal  Bulan  Tahun   branch     MO  SARATOGA                       CGroup                           SCGroup                                                                     source            cob                                         toc                    LOB  BankersClause  New     New Premi  Renewal  Renewal Premi     Comm  CommSUBS  Disc  EngFee  FacPrem  RIPrem  FacRICom SourceBusiness
+0 2024-12-31      1   2024  BANDUNG  ALDDY       NaN  MANDIRI TUNAS FINANCE GROUP                               NaN                                                  MANDIRI TUNAS FINANCE, PT  MOTOR VEHICLE  Polis Standar Kendaraan Bermotor Indonesia  Finance Coy / Leasing            NaN    0 -5.896232e+06        0              0  1636205         0     0       0        0       0         0     M01MT00001
+1 2024-12-31      1   2024  BANDUNG  ALDDY       NaN     Mitra Pinasthika Mustika  MITRA PINASTHIKA MUSTIKA FINANCE        JACCS MITRA PINASTHIKA MUSTIKA FINANCE INDONESIA, PT (CAB. CIREBON)  MOTOR VEHICLE  Polis Standar Kendaraan Bermotor Indonesia  Finance Coy / Leasing            NaN    0 -4.455098e+06        0              0  1236289         0     0       0        0       0         0     C01MP00023
+2 2024-12-31      1   2024  BANDUNG  ALDDY       NaN     Mitra Pinasthika Mustika  MITRA PINASTHIKA MUSTIKA FINANCE      JACCS MITRA PINASTHIKA MUSTIKA FINANCE INDONESIA, PT  (CAB. KARAWANG)  MOTOR VEHICLE  Polis Standar Kendaraan Bermotor Indonesia  Finance Coy / Leasing            NaN    0 -3.915192e+06        0              0  1086465         0     0       0        0       0         0     C01MP00039
+3 2024-12-31      1   2024  BANDUNG  ALDDY       NaN     Mitra Pinasthika Mustika  MITRA PINASTHIKA MUSTIKA FINANCE  JACCS MITRA PINASTHIKA MUSTIKA FINANCE INDONESIA, PT (CAB. BANDUNG 2 BKR)  MOTOR VEHICLE  Polis Standar Kendaraan Bermotor Indonesia  Finance Coy / Leasing            NaN    0 -2.359825e+07        0              0  6548515         0     0       0        0       0         0     C01MP00028
+4 2024-12-31      1   2024  BANDUNG  ALDDY       NaN     Mitra Pinasthika Mustika  MITRA PINASTHIKA MUSTIKA FINANCE  JACCS MITRA PINASTHIKA MUSTIKA FINANCE INDONESIA, PT (CAB. BANDUNG 2 BKR)  MOTOR VEHICLE  Polis Standar Kendaraan Bermotor Indonesia  Finance Coy / Leasing            NaN    0 -9.261478e+05        0              0   231537      2547     0       0        0       0         0     C01MP00028
+
+Inferred Types:
+tanggal           datetime64[ns]
+Bulan                      int64
+Tahun                      int64
+branch                    object
+MO                        object
+SARATOGA                 float64
+CGroup                    object
+SCGroup                   object
+source                    object
+cob                       object
+toc                       object
+LOB                       object
+BankersClause            float64
+New                        int64
+New Premi                float64
+Renewal                    int64
+Renewal Premi              int64
+Comm                       int64
+CommSUBS                   int64
+Disc                       int64
+EngFee                     int64
+FacPrem                    int64
+RIPrem                     int64
+FacRICom                   int64
+SourceBusiness            object
+dtype: object

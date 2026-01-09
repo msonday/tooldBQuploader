@@ -6,8 +6,8 @@ import re
 from datetime import datetime
 
 # Configuration
-KEY_FILE = 'big-bliss-302909-06cd6e425088.json'
-EXCEL_FILE = r'data\ReportReas-07202026150133.xlsx'
+KEY_FILE = r'..\big-bliss-302909-06cd6e425088.json'
+EXCEL_FILE = r'..\data\ReportReas-07202026150133.xlsx'
 DATASET_ID = 'temporary'
 LOCATION = 'asia-southeast2' # Jakarta
 
