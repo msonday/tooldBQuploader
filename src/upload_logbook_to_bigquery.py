@@ -6,8 +6,12 @@ import re
 from datetime import datetime
 
 # Configuration
-KEY_FILE = r'..\big-bliss-302909-06cd6e425088.json'
-EXCEL_FILE = r'..\data\ReportLogbookAll-07202026170107.xlsx'
+# Determine the project root (parent of the 'src' directory where this script lives)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+
+KEY_FILE = os.path.join(PROJECT_ROOT, 'big-bliss-302909-06cd6e425088.json')
+EXCEL_FILE = os.path.join(PROJECT_ROOT, 'data', 'ReportLogbookAll-07202026170107.xlsx')
 DATASET_ID = 'temporary'
 LOCATION = 'asia-southeast2' # Jakarta
 

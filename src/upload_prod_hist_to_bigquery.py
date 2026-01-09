@@ -7,8 +7,12 @@ import re
 from datetime import datetime
 
 # Configuration
-KEY_FILE = r'..\big-bliss-302909-06cd6e425088.json'
-PROD_HIST_DIR = r'..\data\prod_hist'
+# Determine the project root (parent of the 'src' directory where this script lives)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+
+KEY_FILE = os.path.join(PROJECT_ROOT, 'big-bliss-302909-06cd6e425088.json')
+PROD_HIST_DIR = os.path.join(PROJECT_ROOT, 'data', 'prod_hist')
 DATASET_ID = 'temporary'
 LOCATION = 'asia-southeast2' # Jakarta
 TARGET_TABLE_NAME = 'Report_Prod_Hist_All'
